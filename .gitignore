@@ -134,3 +134,4 @@ dmypy.json
 .pytype/
 .idea/
 
+/data/signatures
