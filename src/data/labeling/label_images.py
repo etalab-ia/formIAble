@@ -11,24 +11,41 @@ def main(data_path, output_path):
     # For now we assume images
 
     with tempfile.TemporaryDirectory() as tmpdirname:
+        remote_paths = [
+            Path(path)
+            for path in fs.ls(data_path)
+            if path.endswith((".jpg", ".jpeg", ".png"))
+        ]
         # Download data from s3
-        fs.get(data_path, tmpdirname + "/", recursive=True)
+        extensions = (".png", ".jpg", ".jpeg")
+        for extension in extensions:
+            try:
+                fs.get(
+                    data_path + "/*" + extension,
+                    tmpdirname + "/",
+                    recursive=True,
+                )
+            except FileNotFoundError:
+                pass
+
         image_paths = [
             Path(os.path.join(tmpdirname + "/", x))
             for x in os.listdir(tmpdirname + "/")
-            if x.endswith((".jpg", ".jpeg", ".png"))
+            if x.endswith(extensions)
         ]
         list_doctr_docs = DoctrTransformer().transform(image_paths)
         os.makedirs(tmpdirname + "/labels/")
-        annotations = AnnotationJsonCreator(
-            image_paths,
-            tmpdirname + "/"
-        ).transform(
-            list_doctr_docs
+        annotations = AnnotationJsonCreator(tmpdirname + "/").transform(
+            remote_paths,
+            list_doctr_docs,
         )
+        del annotations
 
         # Upload to s3
-        fs.put(tmpdirname + "/labels.json", output_path, recursive=True)
+        try:
+            fs.put(tmpdirname + "/*.json", output_path, recursive=True)
+        except FileNotFoundError:
+            pass
 
 
 if __name__ == "__main__":

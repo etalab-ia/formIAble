@@ -1,6 +1,7 @@
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 import json
+import os
 
 from doctr.io import Document
 
@@ -15,33 +16,30 @@ class AnnotationJsonCreator:
 
     def __init__(
         self,
-        raw_documents: List[Path],
-        output_path: Path = None,
-        predictions: List = None,
+        output_path: Path = None
     ):
         self.output_path = output_path
-        self.raw_documents = raw_documents
-        self.predictions = predictions
 
     def fit(self, doctr_documents: List[Path], **kwargs):
         return self
 
-    def transform(self, doctr_documents: List[Document]):
-        print(self.raw_documents)
+    def transform(
+        self,
+        remote_paths: List[Path],
+        doctr_documents: List[Document],
+        predictions: Optional[List] = None,
+    ):
         annotations = []
         counter = 0
         for doc_id, doc in enumerate(doctr_documents):
-            image_name = self.raw_documents[doc_id].name
-            image_path_labelstudio = (
-                "/data/upload/" + image_name
-                if upload
-                else f"/data/local-files/?d={image_path}"
-            )
+            image_path = remote_paths[doc_id]
+            image_name = image_path.stem
+            image_path = str(image_path)
             page = doc.pages[
                 0
             ]  # On ne traite que des png/jpg donc que des docs à une page
             dict_image = {
-                "data": {"image": image_path_labelstudio},
+                "data": {"image": "s3://" + image_path},
                 "predictions": [{"result": [], "score": None}],
             }  # result: list de dict pour chaque BBox
 
@@ -50,8 +48,8 @@ class AnnotationJsonCreator:
             id_annotation = 0
             for word in list_words_in_page:
                 prediction = (
-                    self.predictions[counter]
-                    if self.predictions is not None
+                    predictions[counter]
+                    if predictions is not None
                     else None
                 )
                 id_annotation += 1
@@ -82,8 +80,11 @@ class AnnotationJsonCreator:
             annotations.append(dict_image)
 
             if self.output_path is not None:
-                json_path = self.output_path / f"{image_path}.json"
-                with open(self.output_path, "w") as fp:
+                json_path = os.path.join(
+                    self.output_path,
+                    f"{image_name}.json"
+                )
+                with open(json_path, "w") as fp:
                     json.dump(dict_image, fp)
 
         return annotations
