@@ -1,7 +1,8 @@
 Faker==18.3.4
+faker_vehicle==0.2.0
+pdoc3==0.10.0
 numpy==1.24.2
 pdf2image==1.16.3
 Pillow==9.5.0
-pkg_resources==0.0.0
 python-dateutil==2.8.2
 six==1.16.0

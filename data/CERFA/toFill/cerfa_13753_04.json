@@ -1,0 +1,23 @@
+{
+  "name_fields": ["txtNoms"],
+  "siret_fields": ["numSIRET"],
+  "digit_interval_fields": {"numJourNaissance": [1,31],
+                            "numMoisNaissance": [1,12],
+                            "numAnneeNaissance": [1920,2020],
+                            "numVoie": [1,500]
+  },
+  "city_fields": ["txtCommune" ,"txtFaitA","datFaitLe","txtLieuDisporation"],
+  "choice" :
+    {
+      "txtExtension": ["","bis","ter"]
+    },
+  "street_prefix_fields": ["txtTypeVoie"],
+  "street_name_fields": ["tktNomVoie"],
+  "zip_fields": ["numCP"],
+  "immat_fields": ["txtImmatriculation"],
+  "car_brand_fields": ["txtMarque"],
+  "car_fields": ["txtDenomination"],
+  "date_fields": {"datDisparition":  ""},
+  "paragraph_fields": ["txtCirconstances"]
+
+}

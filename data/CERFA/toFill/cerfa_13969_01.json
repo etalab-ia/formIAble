@@ -1,0 +1,17 @@
+{
+  "name_fields": [],
+  "title_fields": ["Titre"],
+  "adresse_fields": ["Adresse"],
+  "zip_fields": ["Codepostal"],
+  "city_fields": [
+    "commune",
+    "lieu",
+    "Prefecture"
+  ],
+  "paragraph_fields": ["Objet"],
+  "siren_siret_fields": ["SIREN"],
+  "txt_pattern": {"Waldec": "W#########"},
+  "digit_interval_fields": {"nbre": [2,200]},
+  "date_fields": {"date": ""},
+  "custom_fields": {"nom": ["name_fields","zip_fields"]}
+}
