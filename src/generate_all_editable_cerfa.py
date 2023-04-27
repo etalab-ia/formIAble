@@ -3,7 +3,7 @@ Module allowing to generate samples for all cerfa templates present in data/CERF
 """
 import argparse
 
-from util.dataGeneration import Writer
+from src.util.dataGeneration import Writer
 
 def run_all(nb_samples=10):
     """

@@ -2,7 +2,7 @@
 Module allowing to generate samples for a given cerfa
 """
 import argparse
-from util.dataGeneration import Writer
+from src.util.dataGeneration import Writer
 
 def run(num_cerfa, nb_samples=10):
     """

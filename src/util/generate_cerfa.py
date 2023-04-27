@@ -6,7 +6,7 @@ from faker import Faker
 from PIL import Image, ImageOps
 from PIL import ImageFont
 from PIL import ImageDraw
-from utils import ajout_retour_ligne
+from src.util.utils import ajout_retour_ligne
 
 
 class Champ:
