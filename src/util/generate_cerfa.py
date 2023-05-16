@@ -139,7 +139,10 @@ def creation_faux_cerfa(nom_cerfa, cerfa_structure, cerfa_path, n_cerfa):
 
 if __name__ == "__main__":
 
-    cerfa_path = "data/CERFA/cerfa_12485-03_p1.png"
-    with open("data/CERFA/cerfa_12485-03_p1.json", "r") as f:
-        cerfa_structure = json.load(f)
-    creation_faux_cerfa("cerfa_12485-03", cerfa_structure, cerfa_path, 1)
+    cerfa_path: str = "data/empty_forms/non-editable/cerfa_12485_03.png"
+    with open("data/elements_to_fill_forms/non-editable/cerfa_12485_03.json", "r") as f:
+        cerfa_structure: dict[str, dict[str, dict[str, list]]] = json.load(f)
+    creation_faux_cerfa(nom_cerfa="cerfa_12485_03",
+                        cerfa_structure=cerfa_structure,
+                        cerfa_path=cerfa_path,
+                        n_cerfa=1)
