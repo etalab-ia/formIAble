@@ -44,11 +44,21 @@ Installation via pip:
 pip install paddlepaddle
 ```
 
-#### Installation de paddleocr (dernière étape !)
+#### Installation de paddleocr (dernière étape)
 
 Installation via pip:
 ```
 pip install paddleocr
+```
+
+### Installation de MMOCR
+
+```
+pip install openmim
+mim install mmengine
+mim install mmcv
+mim install mmdet
+mim install mmocr
 ```
 
 ## Annotation d'images
