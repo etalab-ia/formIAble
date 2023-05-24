@@ -9,6 +9,6 @@ logging.debug(os.getcwd())
 
 ocr = MMOCRInferencer(det='DBNet', rec='CRNN')
 ocr('data/synthetic_forms/cerfa_12485_03_fake1.jpg',
-    out_dir="results/example-MMOCR/cerfa_12485_03_fake1.jpg",
+    out_dir="results/MMOCR/example/cerfa_12485_03_fake1",
     save_pred=True,
     save_vis=True)
