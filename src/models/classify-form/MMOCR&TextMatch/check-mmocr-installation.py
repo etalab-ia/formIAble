@@ -8,4 +8,7 @@ logging.debug(torch.hub.get_dir())  # look here if download fails
 logging.debug(os.getcwd())
 
 ocr = MMOCRInferencer(det='DBNet', rec='CRNN')
-ocr('data/synthetic_forms/cerfa_12485_03_fake1.jpg', show=True, print_result=True)
+ocr('data/synthetic_forms/cerfa_12485_03_fake1.jpg',
+    out_dir="results/example-MMOCR/cerfa_12485_03_fake1.jpg",
+    save_pred=True,
+    save_vis=True)
