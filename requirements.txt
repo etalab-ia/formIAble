@@ -9,3 +9,4 @@ six==1.16.0
 torch
 torchvision
 python-doctr
+lanms-neo
