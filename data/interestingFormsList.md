@@ -1,8 +1,10 @@
 # Liste de formulaires CERFA intéressants
 
+Les CERFA colorés ont déjà été traités par :
+- Jean-Baptiste :tiger:
 
 ## Citoyenneté
-* Déclaration de perte de carte d'identité ou de passeport (formulaire 14011\*02, 1 page, générée automatiquement par le formulaire en ligne)
+* Déclaration de perte de carte d'identité ou de passeport (formulaire 14011\*02, 1 page, générée automatiquement par le formulaire en ligne) :tiger:
   * https://www.service-public.fr/particuliers/vosdroits/R13630
   * https://www.service-public.fr/simulateur/calcul/14011
 
