@@ -8,7 +8,7 @@ Les CERFA colorés ont déjà été traités par :
   * https://www.service-public.fr/particuliers/vosdroits/R13630
   * https://www.service-public.fr/simulateur/calcul/14011
 
-* Vote par procuration (formulaire 14952\*03, éditable numériquement, 2 pages mais une en mode paysage, l'autre en mode portrait)
+* Vote par procuration (formulaire 14952\*03, éditable numériquement, 2 pages mais une en mode paysage, l'autre en mode portrait) :dragon:
   * https://www.service-public.fr/particuliers/vosdroits/R12675
 
 * Demande d'inscription sur les listes électorales (formulaire 12669\*02, 2 pages dont une d'explications)
@@ -102,7 +102,7 @@ Les CERFA colorés ont déjà été traités par :
   * https://www.service-public.fr/particuliers/vosdroits/R13567
   * https://www.service-public.fr/simulateur/calcul/13750
 
-* Déclaration de perte ou vol d'une carte grise (formulaire 13753\*04, 1 page, générée automatiquement par le formulaire en ligne)
+* Déclaration de perte ou vol d'une carte grise (formulaire 13753\*04, 1 page, générée automatiquement par le formulaire en ligne) :dragon:
   * https://www.service-public.fr/particuliers/vosdroits/R1417
   * https://www.service-public.fr/simulateur/calcul/13753
 
@@ -176,3 +176,6 @@ Les CERFA colorés ont déjà été traités par :
 
 * Association : demande de subvention (formulaire 12156\*06, éditable numériquement, 10 pages)
   * https://www.service-public.fr/particuliers/vosdroits/R1271
+
+* Déclaration de la liste des associations membres d’une union ou d’une fédération d’associations (formulaire 13969*01, éditable numériquement, 3 pages dont 1 notice) :dragon:
+  *  https://www.service-public.fr/particuliers/vosdroits/R20989   
