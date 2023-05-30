@@ -11,11 +11,11 @@ class Writer13969_01(Writer):
     DÉCLARATION DE LA LISTE DES ASSOCIATIONS MEMBRES D’UNE UNION OU D’UNE FÉDÉRATION D’ASSOCIATIONS
     """
 
-    def __init__(self, num_cerfa):
+    def __init__(self, **kwargs):
         """
         :param str num_cerfa: Cerfa number
         """
-        super().__init__(num_cerfa=num_cerfa)
+        super().__init__(**kwargs)
         self.D = {
             "name_fields": self.fake.name,
             "title_fields": self.fake['fr-FR'].catch_phrase,

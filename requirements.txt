@@ -9,4 +9,5 @@ six==1.16.0
 torch
 torchvision
 python-doctr
+pymupdf-fonts
 lanms-neo
