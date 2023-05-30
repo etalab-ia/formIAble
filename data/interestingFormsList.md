@@ -35,7 +35,7 @@ Les CERFA colorés ont déjà été traités par :
 
 
 ## Social - Santé
-* Déclarer son médecin traitant (formulaire 12485\*03, 1 page)
+* Déclarer son médecin traitant (formulaire 12485\*03, 1 page) :tiger:
   * https://www.service-public.fr/particuliers/vosdroits/R10884
 
 * Feuille de soins - Médecin (spécimen) (formulaire 12541\*02, 2 pages dont une d'explications et avec un bandeau "Spécimen" en diagonal sur la première et des caractères enchevêtrés)
