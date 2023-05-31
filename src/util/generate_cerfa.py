@@ -2,6 +2,7 @@ import datetime
 import json
 import os
 import random
+import rstr
 
 import numpy as np
 from faker import Faker
@@ -21,6 +22,8 @@ class Champ:
         self.min_cochees = proprietes["min_cochees"] if "min_cochees" in proprietes.keys() else None
         self.max_cochees = proprietes["max_cochees"] if "max_cochees" in proprietes.keys() else None
         self.phrases = proprietes["phrases"] if "phrases" in proprietes.keys() else None
+        self.regex = proprietes["regex"] if "regex" in proprietes.keys() else None
+        self.liste = proprietes["liste"] if "liste" in proprietes.keys() else None
         self.multiline = multiline
         self.marge = marge
 
@@ -53,6 +56,8 @@ class Formulaire:
                 info.append(self.fake.last_name())
             elif type_donnes == "prenom":
                 info.append(self.fake.first_name())
+            elif type_donnes == "nom_prenom":
+                info.append(self.fake.name())
             elif type_donnes == "nom_cabinet":
                 prefix = np.random.choice(["Cabinet médical", "Centre médical"])
                 info.append(f"{prefix} {self.fake.last_name()}\n")
@@ -91,12 +96,23 @@ class Formulaire:
                 random_second = np.random.randint(0, int_delta)
                 rand_date = datetime.datetime(1900, 1, 1) + datetime.timedelta(seconds=random_second)
                 info.append(rand_date.strftime("%d%m%Y"))
+            elif type_donnes == "telephone":
+                info.append(" ".join(self.fake.phone_number()))
+            elif type_donnes == "email":
+                info.append(" ".join(self.fake.ascii_free_email()))
             elif type_donnes == "texte":
                 if champ.phrases is not None:
                     _phrases = champ.phrases
                 else:
                     _phrases = 3
                 info.append(self.fake.paragraph(nb_sentences=_phrases, variable_nb_sentences=True))
+            elif type_donnes == "mot":
+                info.append(self.fake.word().capitalize())
+            elif type_donnes == "element_liste":
+                info.append(random.choice(champ.liste))
+            elif type_donnes == "regex":
+                _num = rstr.xeger(f'{champ.regex}')
+                info.append(_num)
             else:
                 info.append("")
 
@@ -122,19 +138,28 @@ class Formulaire:
                         _, _, w, _ = draw.multiline_textbbox((0, 0), info_cut, font=font)
                     info_lines.append(info_cut)
                     info = " ".join(splitted_info[i_max:])
-                return zip(champ.pos, info_lines)
+                return zip(champ.pos, info_lines, [font for _ in range(len(champ.pos))])
             else:
-                return zip([champ.pos], [info])
+                _, _, w, h = draw.multiline_textbbox((0, 0), info, font=font)
+                while w > champ.pos[2]:
+                    _, _, w, h = draw.multiline_textbbox((0, 0), info, font=font)
+                    font = ImageFont.truetype(font.path.split("/")[-1].replace(".ttf", ""), font.size - 1)
+                while h > champ.pos[3]:
+                    _, _, w, h = draw.multiline_textbbox((0, 0), info, font=font)
+                    font = ImageFont.truetype(font.path.split("/")[-1].replace(".ttf", ""), font.size - 1)
+                return zip([champ.pos], [info], [font])
 
     def generation_faux_exemplaire(self, _cerfa_path, font, color_list):
 
         image = Image.open(_cerfa_path)
         draw = ImageDraw.Draw(image)
+        x_noise_range = 0.02
+        y_noise_range = 0.05
         for champ in self.champs_cases:
             largeur_moyenne_case = np.mean([x[2] for x in champ.pos])
             hauteur_moyenne_case = np.mean([x[3] for x in champ.pos])
-            x_eps = np.random.randint(0, int(0.1 * largeur_moyenne_case))
-            y_eps = np.random.randint(0, int(0.1 * hauteur_moyenne_case))
+            x_eps = np.random.randint(0, max(1, int(x_noise_range * largeur_moyenne_case)))
+            y_eps = np.random.randint(0, max(1, int(y_noise_range * hauteur_moyenne_case)))
             color = np.random.choice(list(color_list.keys()))
             fausse_info = self.creation_fausse_info("cases", champ, draw, font)
             for box, text in fausse_info:
@@ -143,15 +168,15 @@ class Formulaire:
             sign = -1 if champ.marge == "bas" else 1
             largeur_moyenne_case = np.mean([x[2] for x in champ.pos]) if champ.multiline else champ.pos[2]
             hauteur_moyenne_case = np.mean([x[3] for x in champ.pos]) if champ.multiline else champ.pos[3]
-            x_eps = np.random.randint(5, min(10, int(0.1 * largeur_moyenne_case)))
-            y_eps = np.random.randint(0, min(20, int(0.1 * hauteur_moyenne_case)))
+            x_eps = np.random.randint(0, min(10, max(1, int(x_noise_range * largeur_moyenne_case))))
+            y_eps = np.random.randint(0, min(20, max(1, int(y_noise_range * hauteur_moyenne_case))))
             color = np.random.choice(list(color_list.keys()))
             fausse_info = self.creation_fausse_info("champ_libre", champ, draw, font)
-            for box, text in fausse_info:
-                _, _, w, _ = draw.multiline_textbbox((0, 0), text, font=font)
+            for box, text, box_font in fausse_info:
+                _, _, w, _ = draw.multiline_textbbox((0, 0), text, font=box_font)
                 if w > box[2]:
                     text = ajout_retour_ligne(text, box[2] - x_eps, font, draw)
-                draw.text((box[0] + x_eps, box[1] + sign * y_eps), text, color_list[color], font=font)
+                draw.text((box[0] + x_eps, box[1] + sign * y_eps), text, color_list[color], font=box_font)
         for champ in self.champs_image:
             chosen_signature = np.random.choice(os.listdir('data/signatures'))
             signature = Image.open(os.path.join('data/signatures', chosen_signature))
@@ -160,8 +185,8 @@ class Formulaire:
         for champ in self.cases_a_cocher:
             largeur_moyenne_case = np.mean([x[2] for x in champ.pos])
             hauteur_moyenne_case = np.mean([x[3] for x in champ.pos])
-            x_eps = np.random.randint(0, int(0.1 * largeur_moyenne_case))
-            y_eps = np.random.randint(0, int(0.1 * hauteur_moyenne_case))
+            x_eps = np.random.randint(0, max(1, int(x_noise_range * largeur_moyenne_case)))
+            y_eps = np.random.randint(0, max(1, int(y_noise_range * hauteur_moyenne_case)))
             color = np.random.choice(list(color_list.keys()))
             n_coches = random.randint(champ.min_cochees, champ.max_cochees)
             coches = ["X" for _ in range(n_coches)] + ["" for _ in range(len(champ.pos) - n_coches)]
@@ -179,7 +204,7 @@ def creation_faux_cerfa_non_editables(nom_cerfa, _cerfa_structure, _cerfa_path, 
         all_fonts = json.load(file)["fonts"]
     font_list = []
     for font in all_fonts:
-        font_list.append(ImageFont.truetype(font, 45))
+        font_list.append(ImageFont.truetype(font, 40))
     color_list = {"noir": (1, 1, 1)}
     for n in range(n_cerfa):
         font = np.random.choice(font_list)
@@ -193,7 +218,7 @@ def creation_faux_cerfa_non_editables(nom_cerfa, _cerfa_structure, _cerfa_path, 
             gaussian = np.random.normal(0, 10, (image.size[1], image.size[0]))
             image = Image.fromarray(image + gaussian)
         font_name = font.path.split("/")[-1].replace(".ttf", "")
-        save_dir = f"data/CERFA/fake/{nom_cerfa}"
+        save_dir = f"data/synthetic_forms"
         if not os.path.isdir(save_dir):
             os.mkdir(save_dir)
         image.convert('RGB').save(os.path.join(save_dir, f"{n}_{font_name}.jpg"))
@@ -201,8 +226,8 @@ def creation_faux_cerfa_non_editables(nom_cerfa, _cerfa_structure, _cerfa_path, 
 
 if __name__ == "__main__":
 
-    cerfa_path: str = "data/empty_forms/non-editable/cerfa_14011_03.png"
-    with open("data/elements_to_fill_forms/non-editable/cerfa_14011_03_passeport.json", "r") as f:
+    cerfa_path: str = "data/empty_forms/non-editable/cerfa_13749_05.png"
+    with open("data/elements_to_fill_forms/non-editable/cerfa_13749_05.json", "r") as f:
         cerfa_structure = json.load(f)
-    creation_faux_cerfa_non_editables(nom_cerfa="cerfa_14011_03", _cerfa_structure=cerfa_structure,
-                                      _cerfa_path=cerfa_path, n_cerfa=100)
+    creation_faux_cerfa_non_editables(nom_cerfa="cerfa_113749_05", _cerfa_structure=cerfa_structure,
+                                      _cerfa_path=cerfa_path, n_cerfa=10)

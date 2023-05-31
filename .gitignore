@@ -135,3 +135,5 @@ dmypy.json
 .idea/
 
 /data/signatures
+/src/models/craft_text_detector/models/craft_mlt_25k.pth
+/src/models/craft_text_detector/models/craft_refiner_CTW1500.pth

@@ -1,0 +1,691 @@
+{
+	"champs_libres": {
+		"nom": {
+			"type": [
+				"nom_prenom"
+			],
+			"pos": [
+				132,
+				712,
+				596,
+				50
+			]
+		},
+		"date_reception": {
+			"type": [
+				"date"
+			],
+			"pos": [
+				490,
+				855,
+				238,
+				50
+			]
+		},
+		"numero": {
+			"type": [
+				"regex"
+			],
+			"regex": "^[A-Z]{2}[0-9]{3}[A-Z]{2}$",
+			"pos": [
+				132,
+				997,
+				596,
+				50
+			]
+		},
+		"vehicule_marque": {
+			"type": [
+				"element_liste"
+			],
+			"liste": ["Renault", "Citroen", "Peugeot", "Fiat", "Audi", "Seat", "Chrysler", "Mercedes", "BMW", "Dacia",
+				"Ford", "Wolkswagen", "Toyota", "Hyundai"],
+			"pos": [
+				771,
+				722,
+				1576,
+				45
+			]
+		},
+		"vehicule_type": {
+			"type": [
+				"mot"
+			],
+			"pos": [
+				769,
+				806,
+				1580,
+				45
+			]
+		},
+		"vehicule_code": {
+			"type": [
+				"nombre"
+			],
+			"pos": [
+				771,
+				891,
+				765,
+				45
+			]
+		},
+		"vehicule_numero": {
+			"type": [
+				"nombre"
+			],
+			"pos": [
+				1582,
+				891,
+				765,
+				45
+			]
+		},
+		"vehicule_f1": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [600, 1500],
+			"pos": [
+				770,
+				975,
+				269,
+				45
+			]
+		},
+		"vehicule_f2": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [600, 1500],
+			"pos": [
+				1089,
+				975,
+				269,
+				45
+			]
+		},
+		"vehicule_f3": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [600, 1500],
+			"pos": [
+				1408,
+				975,
+				281,
+				45
+			]
+		},
+		"vehicule_g": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [600, 1500],
+			"pos": [
+				1739,
+				975,
+				280,
+				45
+			]
+		},
+		"vehicule_g1": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [500, 1300],
+			"pos": [
+				2069,
+				975,
+				281,
+				45
+			]
+		},
+		"vehicule_j": {
+			"type": [
+				"regex"
+			],
+			"regex": "^[A-F]$",
+			"pos": [
+				770,
+				1112,
+				210,
+				50
+			]
+		},
+		"vehicule_j1": {
+			"type": [
+				"element_liste"
+			],
+			"liste": ["CAM", "CL", "CTTE", "CYCL", "MAGA", "MIAR", "MTL", "MTT1", "VP", "TRA", "TCP", "SRAT", "SREM"],
+			"pos": [
+				1030,
+				1112,
+				210,
+				50
+			]
+		},
+		"vehicule_j2": {
+			"type": [
+				"regex"
+			],
+			"regex": "^[A-C][A-I]$",
+			"pos": [
+				1290,
+				1112,
+				210,
+				50
+			]
+		},
+		"vehicule_j3": {
+			"type": [
+				"element_liste"
+			],
+			"liste": ["AR TRAIN", "AV TRAIN", "BACHE", "BEN AMO", "BEN CERE", "BENNE", "BETAIL", "BETON", "BREAK",
+				"BUS", "CABR", "CAR", "CARB LEG", "CARB LRD", "CASIERS", "CHAS-CAB", "CI", "CIALE", "CIT ALIM",
+				"CIT ALTD", "CIT BETA", "CIT CHIM", "CIT EAU", "CIT GAZ", "CIT PULV", "CIT VID", "CLTRM", "CLTRP",
+				"CYCLM", "DERIV VP", "FG TD", "FOREST", "FOURGON", "HANDICAP", "SPEC", "PLATEAU", "PLSC", "PR REM",
+				"PR SREM", "PTE BAT", "PTE CONT", "PTE ENG", "PTE FER", "PTE VOIT", "QLEM", "QLOMM", "QLOMP",
+				"SAVOYARD", "SIDE-CAR", "SOLO", "SOLO-SIDE-CAR", "TB", "TMM1", "TMM2", "TMP1", "TMP2", "VTTE"],
+			"pos": [
+				1550,
+				1112,
+				209,
+				50
+			]
+		},
+		"vehicule_p1": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [800, 2000],
+			"pos": [
+				1810,
+				1112,
+				197,
+				50
+			]
+		},
+		"vehicule_p2": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [30, 200],
+			"pos": [
+				2058,
+				1112,
+				292,
+				50
+			]
+		},
+		"vehicule_p3": {
+			"type": [
+				"liste_element"
+			],
+			"liste": ["AC", "EE", "EG", "EH", "EL", "EM", "EN", "EP", "EQ", "ER", "ES", "ET", "FE", "FG", "FL", "FN",
+				"GA"],
+			"pos": [
+				770,
+				1201,
+				269,
+				45
+			]
+		},
+		"vehicule_p6": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [30, 200],
+			"pos": [
+				1089,
+				1201,
+				269,
+				45
+			]
+		},
+		"vehicule_q": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [1,4],
+			"pos": [
+				1408,
+				1201,
+				281,
+				45
+			]
+		},
+		"vehicule_s1": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [2, 5],
+			"pos": [
+				1739,
+				1201,
+				280,
+				45
+			]
+		},
+		"vehicule_s2": {
+			"type": [
+				"element_liste"
+			],
+			"liste": ["0"],
+			"pos": [
+				2069,
+				1201,
+				281,
+				45
+			]
+		},
+		"vehicule_u1": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [50, 150],
+			"pos": [
+				770,
+				1330,
+				293,
+				45
+			]
+		},
+		"vehicule_u2": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [500, 2000],
+			"pos": [
+				1113,
+				1330,
+				410,
+				45
+			]
+		},
+		"vehicule_v7": {
+			"type": [
+				"nombre"
+			],
+			"intervalle": [50, 150],
+			"pos": [
+				1585,
+				1330,
+				293,
+				45
+			]
+		},
+		"vehicule_v9": {
+			"type": [
+				"element_liste"
+			],
+			"liste": ["Euro 1", "Euro 2", "Euro 3", "Euro 4", "Euro 5", "Euro 6"],
+			"pos": [
+				1939,
+				1330,
+				411,
+				45
+			]
+		},
+		"vente_nom": {
+			"type": [
+				"nom_prenom"
+			],
+			"pos": [
+				132,
+				1548,
+				595,
+				45
+			]
+		},
+		"vente_d3": {
+			"type": [
+				"nom"
+			],
+			"pos": [
+				1726,
+				1466,
+				613,
+				50
+			]
+		},
+		"demandeur_multipropriete": {
+			"type": [
+				"nombre"
+			],
+			"pos": [
+				1673,
+				1953,
+				170,
+				51
+			]
+		},
+		"demandeur_nom_prenom": {
+			"type": [
+				"nom_prenom"
+			],
+			"pos": [
+				301,
+				2049,
+				1284,
+				38
+			]
+		},
+		"demandeur_nom_usage": {
+			"type": [
+				"nom"
+			],
+			"pos": [
+				1635,
+				2049,
+				706,
+				38
+			]
+		},
+		"demandeur_lieu_naissance": {
+			"type": [
+				"ville"
+			],
+			"pos": [
+				718,
+				2224,
+				682,
+				38
+			]
+		},
+		"demandeur_pays_naissance": {
+			"type": [
+				"pays"
+			],
+			"pos": [
+				1850,
+				2224,
+				489,
+				38
+			]
+		},
+		"co_titulaire_nom": {
+			"type": [
+				"nom_prenom"
+			],
+			"pos": [
+				322,
+				2305,
+				1285,
+				38
+			]
+		},
+		"co_titulaire_non_usage": {
+			"type": [
+				"nom"
+			],
+			"pos": [
+				1633,
+				2305,
+				706,
+				38
+			]
+		},
+		"location_nom_loueur": {
+			"type": [
+				"nom_prenom"
+			],
+			"pos": [
+				135,
+				2508,
+				1415,
+				38
+			]
+		},
+		"location_nom_locataire": {
+			"type": [
+				"nom"
+			],
+			"pos": [
+				135,
+				2590,
+				1415,
+				38
+			]
+		},
+		"domicile_numero": {
+			"type": [
+				"nombre"
+			],
+			"pos": [
+				135,
+				2761,
+				175,
+				35
+			]
+		},
+		"domicile_extension": {
+			"type": [
+				"extension_adresse"
+			],
+			"pos": [
+				347,
+				2761,
+				174,
+				35
+			]
+		},
+		"domicile_type_voie": {
+			"type": [
+				"type_voie"
+			],
+			"pos": [
+				559,
+				2761,
+				292,
+				35
+			]
+		},
+		"domicile_nom_voie": {
+			"type": [
+				"nom_voie"
+			],
+			"pos": [
+				874,
+				2761,
+				593,
+				35
+			]
+		},
+		"domicile_commune": {
+			"type": [
+				"ville"
+			],
+			"pos": [
+				419,
+				2849,
+				1052,
+				35
+			]
+		},
+		"telephone_portable": {
+			"type": [
+				"telephone"
+			],
+			"pos": [
+				1513,
+				2764,
+				830,
+				35
+			]
+		},
+		"adresse_email": {
+			"type": [
+				"email"
+			],
+			"pos": [
+				1513,
+				2852,
+				830,
+				35
+			]
+		},
+		"cerfa_lieu_titulaire": {
+			"type": [
+				"ville"
+			],
+			"pos": [
+				235,
+				3040,
+				174,
+				25
+			]
+		},
+		"cerfa_date_titulaire": {
+			"type": [
+				"date"
+			],
+			"pos": [
+				487,
+				3040,
+				182,
+				25
+			]
+		},
+		"cerfa_lieu_loueur": {
+			"type": [
+				"ville"
+			],
+			"pos": [
+				795,
+				3045,
+				174,
+				25
+			]
+		},
+		"cerfa_date_loueur": {
+			"type": [
+				"date"
+			],
+			"pos": [
+				1047,
+				3045,
+				182,
+				25
+			]
+		},
+		"cerfa_lieu_locataire": {
+			"type": [
+				"ville"
+			],
+			"pos": [
+				1355,
+				3046,
+				175,
+				25
+			]
+		},
+		"cerfa_date_locataire": {
+			"type": [
+				"date"
+			],
+			"pos": [
+				1607,
+				3046,
+				183,
+				25
+			]
+		}
+	},
+	"champs_avec_cases": {
+			"vente_date": {"type":  ["date"], "pos":[[434, 1749, 33, 40],
+				[470, 1749, 32, 40],
+				[518, 1749, 32, 40],
+				[553, 1749, 33, 40],
+				[601, 1749, 33, 40],
+				[637, 1749, 32, 40],
+				[672, 1749, 32, 40],
+				[707, 1749, 33, 40]
+			]},
+		"demandeur_siret": {"type":  ["chiffre"], "pos":[[303, 2137, 44, 38],
+			[350, 2137, 44, 38],
+			[397, 2137, 44, 38],
+			[445, 2137, 44, 38],
+			[492, 2137, 44, 38],
+			[539, 2137, 44, 38],
+			[586, 2137, 44, 38],
+			[633, 2137, 44, 38],
+			[681, 2137, 44, 38],
+			[728, 2137, 44, 38],
+			[775, 2137, 44, 38],
+			[822, 2137, 44, 38],
+			[870, 2137, 44, 38],
+			[917, 2137, 44, 38]
+		]},
+		"demandeur_date_naissance": {"type":  ["date"], "pos":[[267, 2224, 44, 38],
+			[314, 2224, 44, 38],
+			[374, 2224, 44, 38],
+			[421, 2224, 44, 38],
+			[481, 2224, 44, 38],
+			[528, 2224, 44, 38],
+			[575, 2224, 44, 38],
+			[622, 2224, 44, 38]
+		]},
+		"demandeur_departement_naissance": {"type":  ["date"], "pos":[[1611, 2224, 44, 38],
+			[1658, 2224, 44, 38],
+			[1705, 2224, 44, 38]
+		]},
+		"demandeur_loueur_siret": {"type":  ["chiffre"], "pos":[[1686, 2508, 44, 38],
+			[1734, 2508, 44, 38],
+			[1781, 2508, 44, 38],
+			[1828, 2508, 44, 38],
+			[1875, 2508, 44, 38],
+			[1923, 2508, 44, 38],
+			[1970, 2508, 44, 38],
+			[2017, 2508, 44, 38],
+			[2064, 2508, 44, 38],
+			[2112, 2508, 44, 38],
+			[2159, 2508, 44, 38],
+			[2206, 2508, 44, 38],
+			[2253, 2508, 44, 38],
+			[2300, 2508, 44, 38]
+		]},
+		"demandeur_locataire_siret": {"type":  ["chiffre"], "pos":[[1686, 2588, 44, 38],
+			[1734, 2588, 44, 38],
+			[1781, 2588, 44, 38],
+			[1828, 2588, 44, 38],
+			[1875, 2588, 44, 38],
+			[1923, 2588, 44, 38],
+			[1970, 2588, 44, 38],
+			[2017, 2588, 44, 38],
+			[2064, 2588, 44, 38],
+			[2112, 2588, 44, 38],
+			[2159, 2588, 44, 38],
+			[2206, 2588, 44, 38],
+			[2253, 2588, 44, 38],
+			[2300, 2588, 44, 38]
+		]},
+			"domicile_code_postal": {"type":  ["chiffre"], "pos":[[135, 2846, 45, 38],
+				[183, 2846, 44, 38],
+				[230, 2846, 44, 38],
+				[277, 2846, 44, 38],
+				[324, 2846, 45, 38]
+			]}
+	},
+	"cases_a_cocher": {
+		"type_vehicule": {"min_cochees":  1, "max_cochees":  1, "pos": [[1507, 582, 36, 35], [1861, 582, 36, 35]]},
+		"usage": {"min_cochees":  1, "max_cochees":  1, "pos": [[1883, 1561, 25, 25], [2037, 1561, 25, 25]]},
+		"couleur_teinte": {"min_cochees":  1, "max_cochees":  1, "pos": [[1801, 1739, 56, 42], [1801, 1874, 56, 42]]},
+		"couleur": {"min_cochees":  1, "max_cochees":  1, "pos": [[1942, 1694, 56, 42], [1942, 1739, 56, 42],
+		[1942, 1784, 56, 42], [1942, 1829, 56, 42], [1942, 1874, 56, 42], [2179, 1694, 56, 42], [2179, 1739, 56, 42],
+		[2179, 1784, 56, 42], [2179, 1829, 56, 42], [2179, 1874, 56, 42]]},
+		"demandeur_type": {"min_cochees":  1, "max_cochees":  1, "pos": [[1033, 1964, 25, 25], [1033, 2006, 25, 25]]},
+		"demandeur_genre": {"min_cochees":  1, "max_cochees":  1, "pos": [[1392, 1964, 25, 25], [1512, 1964, 25, 25]]},
+		"location_type": {"min_cochees":  1, "max_cochees":  1, "pos": [[1173, 2434, 25, 25], [1773, 2434, 25, 25]]},
+		"donnees_personnelles": {"min_cochees":  0, "max_cochees":  3, "pos": [[685, 3303, 21, 21],
+			[1000, 3303, 21, 21],
+			[1341, 3303, 21, 21]
+		]}
+	},
+	"champs_image": {
+		"signature": {"type":  ["signature"], "pos": [132, 1278, 596, 125]},
+		"vente_signature": {"type":  ["signature"], "pos": [755, 1549, 953, 384]},
+		"cerfa_titulaire_signature": {"type":  ["signature"], "pos": [133, 3125, 536, 125]},
+		"cerfa_loueur_signature": {"type":  ["signature"], "pos": [699, 3174, 528, 79]},
+		"cerfa_locataire_signature": {"type":  ["signature"], "pos": [1256, 3174, 528, 79]}
+	}
+}
