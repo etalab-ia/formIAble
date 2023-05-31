@@ -19,13 +19,16 @@ def run(num_cerfa, nb_samples=10):
                          f"{[w.__name__ for w in matching_writers]}")
     elif len(matching_writers)==1:
         custom_writer = matching_writers[0]
+
         for idx in range(nb_samples):
-            writer = custom_writer( num_cerfa)
+            writer = custom_writer( num_cerfa = num_cerfa)
             writer.fill_form()
             writer.save()
     else:
         raise ValueError(f"No custom writer found for cerfa : {num_cerfa}. Available writers are:\n"
                          f"{[w.__name__ for w in sub_writers]}")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('num_cerfa', type=str, nargs=1,
@@ -34,4 +37,6 @@ if __name__ == "__main__":
                         help='The number of samples to generate for each cerfa')
 
     args = parser.parse_args()
+
     run(num_cerfa = args.num_cerfa[0], nb_samples = vars(args)['nb_samples'])
+

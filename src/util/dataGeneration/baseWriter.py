@@ -9,12 +9,15 @@ from collections import OrderedDict
 from enum import Enum
 
 import numpy as np
+import numpy.random
 from faker import Faker
 from faker_vehicle import VehicleProvider
 from fitz import fitz
 
 locales = OrderedDict([
     ('fr-FR', 1)])
+
+
 
 class DateFormats(Enum):
     """
@@ -31,16 +34,29 @@ class Annotator():
     """
     def __init__(self):
         self.dic = {}
+        self.filename = None
 
     def add(self, field,loc, value):
+        """
+        Ajout d'un champs au dictionnaire final d'annotations
+        :param field: Le widget à annoter
+        :param loc: Les coordonnées du widget
+        :param value: Valeur à lire par l'OCR
+        :return:
+        """
         self.dic.update({ str(loc):(field,value)})
 
     def save(self, filename:str):
+        """
+        Sauvegarde des annotations
+        :param filename: Nom du fichier où sauvegarder
+        :return:
+        """
         self.filename = filename
-        with open(filename, "w") as f:
-            json.dump(self.dic,f)
+        with open(filename, "w", encoding="utf-8") as file:
+            json.dump(self.dic,file)
 
-class Writer(object):
+class Writer:
     """
     Before creating a new writer, you need to place a cerfa_{num_cerfa}.pdf file and cerfa_{num_cerfa}.json
     file into folder data/CERFA/toFill. The pdf file is the empty template, and the json file is the mapping
@@ -58,11 +74,18 @@ class Writer(object):
         In the __init__ of the child class, you need to specify a dictionnary D mapping field types
         with functions to fill them.
         :param num_cerfa: cerfa number as string.
+        :param valid_pages List[int]: Liste des pages à prendre en compte pour la génération synthétique de données
+        (i.e les
+        pages qui contiennent des champs de formulaire). Si valid_pages et invalid_pages non spécifiés, toutes les pages
+        sont supposées valides.
+        :param invalid_pages List[int]: Liste des pages à NE PAS prendre en compte pour la génération synthétique de
+        données (i.e pages de notice). Si valid_pages et invalid_pages non spécifiés, toutes les pages
+        sont supposées valides.
         """
         self.fake = Faker(locales)
         self.fake.add_provider(VehicleProvider)
-        _input_filepath = f"data/CERFA/toFill/cerfa_{num_cerfa}.pdf"
-        _param_filepath = f"data/CERFA/toFill/cerfa_{num_cerfa}.json"
+        _input_filepath = f"data/empty_forms/editable/cerfa_{num_cerfa}.pdf"
+        _param_filepath = f"data/elements_to_fill_forms/editable/cerfa_{num_cerfa}.json"
         self.output_filepath = "output/{}/cerfa_{}_v{}.pdf"
 
         self.doc = fitz.open(_input_filepath)
@@ -70,11 +93,37 @@ class Writer(object):
         self.params = json.load(open(_param_filepath, 'rb'))
         self.num_cerfa = num_cerfa
 
+        self.__set_text_style__()
+
         self.radio_buttons_values = {}
         self.radio_buttons_group_len = {}
         self.__clear_radio_buttons__()
         self.D = {}
         self.annotator = None
+
+    def __set_text_style__(self, rgb_max:float = 0.8, min_size:float = 6, max_size:float = 13):
+        """
+        Génération aléatoire de style de texte à partir de
+            * liste de fonts pris en charge
+            * couleur aléatoire
+            * taille aléatoire entre 6 et 13
+        En introduisant de la variabilité, on espère rendre le moule OCR plus robuste.
+
+        :param rgb_max: Maximum pour les valeurs Red, Green, Blue de la couleur du texte. Si R=G=B=1, alors couleur du
+        texte = blanc, et le texte sera illisible. Par défaut, rbg_max = 0.8
+        :param min_size: Taille minimale du texte (en pt). Par défaut, min_size=6
+        :param max_size: Taille maximale du texte (en pt). Par défaut, max_size=13
+        :return:
+        """
+        with open("data/elements_to_fill_forms/editable/usable_fonts.json", "r", encoding='utf-8') as file:
+            usable_fonts = [x.lower() for x in list(json.loads(file.read()).keys())]
+            font = numpy.random.choice(usable_fonts)
+            self.doc[0].insert_font(fontname=font, encoding=0)
+            self.font = fitz.Font(font)
+        # La couleur est définie sous forme de triplet (RGB), dont les valeurs sont ramenées entre 0 et 1.
+        # => On génère un triplet aléatoire de valeurs dans [0;0.8] pour ne pas avoir de couleur trop claires
+        self.font_color = list(numpy.random.uniform(0, rgb_max, size=3))
+        self.font_size = numpy.random.randint(min_size, max_size)
 
     def __clear_radio_buttons__(self):
         """
@@ -93,6 +142,32 @@ class Writer(object):
                     self.radio_buttons_group_len[_field.field_name] = group_len + 1
                 _field = _field.next
 
+    def __shit_textbox__(self, rect: fitz.fitz.Rect, shift_coeff:float = 0.03):
+        """
+        Déplace aléatoirement d'un rectangle. Utilisé pour déplacer les boites de textes contenant les valeurs à saisir
+        par les utilisateurs du CERFA. En introduisant de la variabilité, on espère rendre le moule OCR plus robuste.
+        :param rect fitz.fitz.Rect: Rectangle à déplacer
+        :param shift_coeff float: Pourcentage de déplacement horizontal (resp. vertical) autorisé, exprimé par rapport à
+         la largeur (resp. hauteur) du rectangle.
+        :return: Le rectangle de la boite de texte assigné à sa nouvelle position
+        """
+
+        x_bound = shift_coeff * rect.width
+        y_bound = shift_coeff * rect.height
+
+        new_top_left_x = next(iter([numpy.random.uniform(rect.top_left.x - x_bound, rect.top_left.x + x_bound)]),None)
+        new_top_left_y = next(iter([numpy.random.uniform(rect.top_left.y - y_bound, rect.top_left.y + y_bound)]),None)
+
+        dx = rect.top_left.x - new_top_left_x
+        dy = rect.top_left.y - new_top_left_y
+
+        rect.x0 = new_top_left_x
+        rect.y0 = new_top_left_y
+        rect.x1 = rect.x1 + dx
+        rect.y1 = rect.y1 + dy
+
+        return rect
+
     # -----------------------------------------------------------------------------------------------------------
     # The following functions fill the different kind of widgets : text, checkbox, radio ...
     # -----------------------------------------------------------------------------------------------------------
@@ -104,6 +179,21 @@ class Writer(object):
         :param fitz.fitz.Widget field: The widget we want to fill (text area in this case)
         :return: None
         """
+
+        # Apply random style & position variations
+        field.text_font = self.font.name
+        field.text_color = self.font_color
+        field.text_fontsize = self.font_size
+
+        # TODO convertir en log debug
+        # print("-" * 20)
+        # print(field.rect)
+
+        field.rect = self.__shit_textbox__(field.rect)
+        # TODO convertir en log debug
+        # print(field.rect)
+        # print("-" * 20)
+
         for key in self.D.keys():
             values = self.params.get(key, None)
             if values and isinstance(values, list):
@@ -113,7 +203,11 @@ class Writer(object):
                     except KeyError:  # Writer's own functions may contain arguments
                         val = self.D[key](field=field)
                     field.field_value = val
-                    field.update()
+                    try:
+                        field.update()
+                    except ValueError as ex:
+                        print(ex)
+                        print(field.rect)
                     self.annotator.add(field.field_name, field.rect, val)
                     break
 
@@ -178,9 +272,9 @@ class Writer(object):
         """
         try:
             _field, param_key = kwargs["field"], kwargs["param_value"]
-        except:
-            raise ValueError("Function fill_date expects keyword arguments 'field' and 'param_value'. "
-                             "Check docstring for details.")
+        except KeyError as exc:
+            raise KeyError("Function fill_date expects keyword arguments"
+                           "'field' and 'param_value' Check docstring for details.") from exc
 
         _format = param_key
         if _format == "": _format = self.fake.random_element(elements=DateFormats.NUMERIC_OR_STR.value)
@@ -196,7 +290,7 @@ class Writer(object):
         max_chars = _field.text_maxlen if _field.text_maxlen > 0 else 1000
         return self.fake['fr-FR'].paragraph(nb_sentences=3, variable_nb_sentences=True)[:max_chars]
 
-    def fill_siren_siret(self, **kwargs):
+    def fill_siren_siret(self):
         """
         Fill a text area with a siren or a siret (50/50 chance)
         :param fitz.fitz.Widget field: text area to fill
@@ -206,7 +300,7 @@ class Writer(object):
         return self.fake['fr-FR'].siren().replace(" ", "") if self.fake.boolean(chance_of_getting_true=50) \
             else self.fake['fr-FR'].siret().replace(" ", "")
 
-    def fill_siret(self, **kwargs):
+    def fill_siret(self):
         """
         Fill a text area with a siret
         :param kwargs: Not used. In the signature for compatibility reasons
@@ -234,8 +328,8 @@ class Writer(object):
         :return: The sampled number
         """
         _field, interval = kwargs["field"], kwargs["param_value"]
-        min, max = interval
-        return self.fake.random_int(min, max)
+        _min, _max = interval
+        return self.fake.random_int(_min, _max)
 
     def choice(self,**kwargs):
         """
@@ -277,9 +371,13 @@ class Writer(object):
         """
         self.annotator = Annotator()
         for p in range(self.doc.page_count):
+            # if p in self.valid_pages:
             page = self.doc[p]
             field = page.first_widget
-            self.fill_page(field)
+            if field:  # Aucun champs detecté sur la page, il s'agit d'une page de notice
+                self.fill_page(field)
+            else:
+                self.doc.delete_page(p)
 
     # -----------------------------------------------------------------------------------------------------------
     # Save filled-in document on disk

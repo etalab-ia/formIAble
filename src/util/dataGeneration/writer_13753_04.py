@@ -11,11 +11,11 @@ class Writer13753_04(Writer):
     DÉCLARATION DE LA PERTE/VOL DE CERTIFICAT D’IMMATRICULATION D’UN VÉHICULE
     """
 
-    def __init__(self, num_cerfa):
+    def __init__(self,  **kwargs):
         """
         :param str num_cerfa: Cerfa number
         """
-        super().__init__(num_cerfa=num_cerfa)
+        super().__init__( **kwargs)
         self.D = {
             "name_fields": self.fake.name,
             # "lieu_fields": self.fake['fr-FR'].catch_phrase,
